@@ -38,7 +38,9 @@ def swap_cities(road_map, index1, index2):
     Allow for the possibility that `index1=index2`,
     and handle this case correctly.
     """
-    return (4,7)
+    new_roadmap = [0]
+    new_total_distance = 0.0
+    return (new_roadmap,new_total_distance)
 
 def shift_cities(road_map):
     """
@@ -46,7 +48,8 @@ def shift_cities(road_map):
     to the position i+1. The city at the last position moves to the position
     0. Return the new road map. 
     """
-    return ("road_map_new")
+    new_roadmap_2 = [1]
+    return (new_roadmap_2)
 
 def find_best_cycle(road_map):
     """
