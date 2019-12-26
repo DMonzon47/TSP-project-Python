@@ -1,3 +1,7 @@
+import random
+
+road_map = [()]
+
 def read_cities(file_name):
     """
     Read in the cities from the given `file_name`, and return 
@@ -9,14 +13,46 @@ def read_cities(file_name):
 
       Alabama -> Alaska -> Arizona -> ... -> Wyoming -> Alabama.
     """
-    pass
-  
+    infile = open(file_name,"r")
+
+    inline = infile.readlines()
+    listt = [tuple(line.strip().split('/t')) for line in inline]
+    infile.close()
+    return listt
+
+    #read_cities('city-data.txt')
+
+    #for i in listt: 
+
+#split split(/t) line where /t and create a 4 element tuple. Then add to roadmap.
+
+# divide each string into 4 strings at "t"
+# remove "n" ()
+# tranform into tuple 
+# add to listt
+# return listt
+road_map = read_cities('city-data.txt')
+print(road_map)
+
+
+
 def print_cities(road_map):
     """
     Prints a list of cities, along with their locations. 
     Print only one or two digits after the decimal point.
     """
-    pass
+    
+    road_map2 = [(i[1],float(i[2]),float(i[3])) for i in road_map]
+    print(road_map2)
+    #rounded_road_map = [(i[0],round((i[1],i[2]), 2)) for i in road_map2]
+    #rounded_road_map= []
+    #for i in road_map2: 
+    #  float((i[1],i[2]))
+    #   round((i[1],i[2]),2)
+
+    return road_map2
+
+print(print_cities(road_map))
 
 def compute_total_distance(road_map):
     """
