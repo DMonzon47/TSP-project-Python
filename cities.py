@@ -1,5 +1,5 @@
 import random
-
+import math
 road_map = [()]
 
 def read_cities(file_name):
@@ -13,11 +13,15 @@ def read_cities(file_name):
 
       Alabama -> Alaska -> Arizona -> ... -> Wyoming -> Alabama.
     """
+    road_map = []
     infile = open(file_name,"r")
-
+    
     inline = infile.readlines()
-    listt = [tuple(line.strip().split('/t')) for line in inline]
-    infile.close()
+    r_listt = [line.rstrip() for line in inline]
+    listt = [(line.split('\t',4)) for line in r_listt]
+    #r_listt = [line.rstrip() for line in inline]
+    
+    infile.close()   
     return listt
 
     #read_cities('city-data.txt')
@@ -31,9 +35,16 @@ def read_cities(file_name):
 # tranform into tuple 
 # add to listt
 # return listt
-road_map = read_cities('city-data.txt')
-print(road_map)
+read_cities = read_cities('city-data.txt')
+print(read_cities)
 
+#split split(/t) line where /t and create a 4 element tuple. Then add to roadmap.
+
+# divide each string into 4 strings at "t"
+# remove "n" ()
+# tranform into tuple 
+# add to listt
+# return listt
 
 
 def print_cities(road_map):
@@ -41,18 +52,13 @@ def print_cities(road_map):
     Prints a list of cities, along with their locations. 
     Print only one or two digits after the decimal point.
     """
-    
-    road_map2 = [(i[1],float(i[2]),float(i[3])) for i in road_map]
-    print(road_map2)
-    #rounded_road_map = [(i[0],round((i[1],i[2]), 2)) for i in road_map2]
-    #rounded_road_map= []
-    #for i in road_map2: 
-    #  float((i[1],i[2]))
-    #   round((i[1],i[2]),2)
+    road_map2 = [(i[1],round(float(i[2]),2),round(float(i[3]),2)) for i in road_map]
+#round a float number not float a rounded string!!
 
     return road_map2
 
-print(print_cities(road_map))
+print_cities = print_cities(read_cities)
+print(print_cities)
 
 def compute_total_distance(road_map):
     """
@@ -60,7 +66,29 @@ def compute_total_distance(road_map):
     the connections in the `road_map`. Remember that it's a cycle, so that 
     (for example) in the initial `road_map`, Wyoming connects to Alabama...
     """
-    return (7.0)
+    total_distance = 0
+    count = 0
+    x1 = road_map[0][1]
+    y1 = road_map[0][2]
+    
+    x2 = 0
+    y2 = 0
+    
+    #sqrt((x1-x2)^2 + (y1-y2)^2)
+    #circuit = lst[(i + 1) % len(lst)]
+    while count != len(road_map)+1: 
+        for i in range(len(road_map)): 
+            x2 = road_map[(i + 1) % len(road_map)][1]
+            y2 = road_map[(i + 1) % len(road_map)][2]
+            new_distance = math.sqrt((x1-x2)**2 + (y1-y2)**2)
+            total_distance += new_distance              
+            
+            x1 = x2
+            y1 = y2
+            count +=1
+    return float(total_distance)
+
+print(compute_total_distance(print_cities))
 
 
 def swap_cities(road_map, index1, index2):
