@@ -67,7 +67,6 @@ def compute_total_distance(road_map):
     (for example) in the initial `road_map`, Wyoming connects to Alabama...
     """
     total_distance = 0
-    count = 0
     x1 = road_map[0][1]
     y1 = road_map[0][2]
     
@@ -76,17 +75,15 @@ def compute_total_distance(road_map):
     
     #sqrt((x1-x2)^2 + (y1-y2)^2)
     #circuit = lst[(i + 1) % len(lst)]
-    while count != len(road_map)+1: 
-        for i in range(len(road_map)): 
-            x2 = road_map[(i + 1) % len(road_map)][1]
-            y2 = road_map[(i + 1) % len(road_map)][2]
-            new_distance = math.sqrt((x1-x2)**2 + (y1-y2)**2)
-            total_distance += new_distance              
+
+    for i in range(len(road_map)): 
+        x2 = road_map[(i + 1) % len(road_map)][1]
+        y2 = road_map[(i + 1) % len(road_map)][2]
+        total_distance += math.sqrt((x1-x2)**2 + (y1-y2)**2)    
+        x1 = x2
+        y1 = y2
             
-            x1 = x2
-            y1 = y2
-            count +=1
-    return float(total_distance)
+    return round(total_distance,2)
 
 print(compute_total_distance(print_cities))
 
