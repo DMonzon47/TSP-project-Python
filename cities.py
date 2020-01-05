@@ -1,54 +1,40 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[14]:
+# In[32]:
 
 
 import random as rand
 import math
 
 
-# In[15]:
+# In[2]:
 
 
 def read_cities(file_name):
     """
     Read in the cities from the given `file_name`, and return 
     them as a list of four-tuples: 
-
       [(state, city, latitude, longitude), ...] 
-
     Use this as your initial `road_map`, that is, the cycle 
-
       Alabama -> Alaska -> Arizona -> ... -> Wyoming -> Alabama.
     """
-    road_map = []
-    infile = open(file_name,"r")
     
+    #road_map = []
+    infile = open(file_name,"r")
     inline = infile.readlines()
     r_listt = [line.rstrip() for line in inline]
-    listt = [(line.split('\t',4)) for line in r_listt]
-    #r_listt = [line.rstrip() for line in inline]
+    road_map = [(line.split('\t',4)) for line in r_listt]
+    
     
     infile.close()   
-    return listt
+    return road_map
 
-    #read_cities('city-data.txt')
-
-    #for i in listt: 
-
-#split split(/t) line where /t and create a 4 element tuple. Then add to roadmap.
-
-# divide each string into 4 strings at "t"
-# remove "n" ()
-# tranform into tuple 
-# add to listt
-# return listt
 road_map = read_cities('city-data.txt')
-#print(road_map)
+print(road_map)
 
 
-# In[20]:
+# In[24]:
 
 
 def print_cities(road_map):
@@ -57,17 +43,17 @@ def print_cities(road_map):
     Print only one or two digits after the decimal point.
     """
     
+    #creates a list (road_map2) where each index has a list of: str,str,float,float.
     road_map2 = [(i[0],i[1],round(float(i[2]),2),round(float(i[3]),2)) for i in road_map]
     road_map = road_map2
-#round a float number not float a rounded string!!
-
-    return road_map
-
-road_map = print_cities(road_map)
-print(road_map)
 
 
-# In[22]:
+    return (road_map)
+
+print_cities(road_map)
+
+
+# In[25]:
 
 
 def compute_total_distance(road_map):
@@ -81,17 +67,18 @@ def compute_total_distance(road_map):
     if len(road_map) == 0: 
         return "Empty 'road_map', please input correct format: [('state','city','latitude','longitude')]."
     
-    #to check if longitude and latitude is in float() type or if list is in correct format. 
+    #to check if longitude and latitude is in float() type and if road_map follows correct format. 
     for i in road_map:
-        if type(i[2]) == str or type(i[3]) == str:
-            return "Incorrect type/format. 'road_map' index[2] and [3] must be of float() types."
-        if type(i[2]) == int or type(i[3]) ==int:
-            return "Incorrect type/format. 'road_map' index[2] and [3] must be of float() types."      
         if len(i)!= 4: 
-            return "List does not follow format [(state, city, latitude, longitude)]" #may not be needed. 
+            return "List does not follow format [(state, city, latitude, longitude)]"
+        if type(i[2]) != float or type(i[3]) != float:
+            return "Incorrect type/format. 'road_map' index[2] and [3] must be of float() types." 
+        if type(i[0]) != str or type(i[1]) != str:
+            return "Incorrect type/format. 'road_map' index[2] and [3] must be of str() types." 
         
     total_distance = 0
-    x1 = road_map[0][2] #float or str?
+    #coordinates index from road_map. (floats, longitude and latitude)
+    x1 = road_map[0][2] 
     y1 = road_map[0][3]
     
     x2 = 0
@@ -100,6 +87,7 @@ def compute_total_distance(road_map):
     for i in range(len(road_map)): 
         x2 = road_map[(i + 1) % len(road_map)][2]
         y2 = road_map[(i + 1) % len(road_map)][3]
+        #compute distance between two cities and then add to 'total_distance', returns a float to 2 decimal places. 
         total_distance += math.sqrt((x1-x2)**2 + (y1-y2)**2)    
         x1 = x2
         y1 = y2
@@ -107,20 +95,21 @@ def compute_total_distance(road_map):
     return round(float(total_distance),2)
 
 #print(compute_total_distance(road_map))
-#road_map11 = [("Kentucky", "Frank", 38.197274, -84.86311),\
-#                ("Delaware", "Dover", 39.161921, -75.526755),\
-#                ("Minnesota", "Saint Paul", 44.95, -93.094)]
-#road_map2 = []
-#print(compute_total_distance(road_map11))
-#print(compute_total_distance(road_map2))
-#print(compute_total_distance(road_map))
 
 
-# In[19]:
+# In[47]:
 
 
 def swap_cities(road_map, index1, index2):
 
+    #if indices are same, return road_map. 
+    if index1==index2:
+        return road_map
+    
+    #checks if inputted index1 and index2 is of int type.     
+    if type(index1)!= int or type(index2) != int:
+        return "Input: index1 or index2 is of wrong type. Input must be an int."
+    
     #to check for empty road_map
     if len(road_map) == 0: 
         return "Empty 'road_map', please input correct format: [('state','city','latitude','longitude')]."
@@ -133,37 +122,19 @@ def swap_cities(road_map, index1, index2):
             return "Incorrect type. 'road_map' index[0] and [1] must be of str() types."
         if len(i)!= 4: 
             return "List does not follow format [(state, city, latitude, longitude)]"
-        
-        
-    #checks if inputted index1 and index2 is of int type.     
-    if type(index1)== float or type(index2) == float :
-        return "Input: index1 or index2 is of wrong type. Input must be an int."
             
-    if type(index1) == str or type(index2) == str: 
-        return "Input: index1 or index2 is of wrong type. Input must be an int."
-            
-    #print(str(road_map)+'\n')
-    road_map [index1],road_map [index2] = road_map [index2],road_map [index1]
-    new_road_map = road_map
+    #create new_road_map from original road_map so that original is unaltered.
+    new_road_map = [(i) for i in road_map]
+    new_road_map [index1],new_road_map [index2] = new_road_map [index2],new_road_map [index1]
+    
     new_total_distance = compute_total_distance(new_road_map)
-            #count+=1
-        
-    #print(str(road_map)+'\n')
-        
+
     return (new_road_map, new_total_distance)
-print(swap_cities(road_map,0,1))
-#print('\n')
-#print(road_map)
-
-#print(road_map2)
-#swap_cities = (swap_cities(print_cities,1,1))
-#print(swap_cities)
+#print(swap_cities(road_map,0,1))
 
 
-# In[6]:
+# In[27]:
 
-
-rm = [1,2,3,4,5,6,7,8,9]
 
 def shift_cities(road_map):
     """
@@ -175,13 +146,11 @@ def shift_cities(road_map):
     #road_map = [road_map[-1]] + road_map[:-1]
     #print(road_map)
     
-    #ROAD MAP DOES NOT CHANGE!!FIX THIS!
-#     road_map2=[]
-#     for i in road_map: 
-#         road_map2.append(i)
+    #to check for empty road_map
     if len(road_map) == 0: 
         return "Empty 'road_map', please input correct format: [('state','city','latitude','longitude')]."
     
+    #to check if longitude and latitude is in float() type and if road_map follows correct format. 
     for i in road_map:
         if type(i[2]) != float or type(i[3]) != float:
             return "Incorrect type. 'road_map' index[2] and [3] must be of float() types."
@@ -189,102 +158,47 @@ def shift_cities(road_map):
             return "Incorrect type. 'road_map' index[0] and [1] must be of str() types."
         if len(i)!= 4: 
             return "List does not follow format [(state, city, latitude, longitude)]"
-     #road_map = road_map2
+     
+    #create new_road_map to leave original unaltered.
+    new_road_map = [(i) for i in road_map]
     
-    road_map.insert(0,road_map.pop())
+    #shifts all elements in list to index+1. Last element becomes index[0] (start of list).
+    new_road_map.insert(0,new_road_map.pop())
     
-    return  road_map
+    return  new_road_map
 #print(shift_cities(road_map))
-#rm_map = shift_cities(rm)
-#print(shift_cities(rm_map))
-#print(shift_cities(rm_map))
-#print(shift_cities(rm_map))
 
 
-# def find_best_cycle(road_map):
-#     """
-#     Using a combination of `swap_cities` and `shift_cities`, 
-#     try `10000` swaps/shifts, and each time keep the best cycle found so far. 
-#     After `10000` swaps/shifts, return the best cycle found so far.
-#     Use randomly generated indices for swapping.
-#     """
-# 
-#     n = 10000
-#     count = 0
-#     new_cycle = 0
-#     best_cycle = 1060.14
-#     best_cycle_road_map = road_map
-#     
-#     while count!= n:
-#         n1 = int((len(road_map)) * rand.random())
-#         n2 = int((len(road_map)) * rand.random())
-#         #print('start cycle: ' + str(best_cycle))
-#         #print(str(best_cycle_road_map)+'\n')
-#         a = swap_cities(best_cycle_road_map, n1, n2)
-#         #print('swapped total: ' + str(a[1]))
-#         #print(n1,n2)
-#         #print (a[1])
-#         #print(type(a[1]))
-#         #print(type(a[0]))
-#         
-#         if a[1] < best_cycle: 
-#             best_cycle = a[1]
-#             best_cycle_road_map = a[0]
-#             #print('\n'+'second cycle: ' + str(best_cycle))
-#             #print('second cycle: ' + str(best_cycle_road_map)+ '\n')
-#         #maybe check total distance again here above?: 
-#         
-#         b = shift_cities(best_cycle_road_map)
-#         
-#         #is this doing it properly and storing the right road_map?
-#         #print('\n Shift_cycle: ' + str(b))
-#         new_cycle = compute_total_distance(b)
-#         print('shifted_new cycle: ' + str(new_cycle))
-#         if new_cycle < best_cycle:
-#             best_cycle = new_cycle
-#             
-#             best_cycle_road_map = b
-#             #print(n1,n2,b, new_cycle)
-#         count+=1
-#         #print('count: ' + str(count))
-#         #print(best_cycle_road_map)
-#     return ('Total distance: ' + str(best_cycle)), best_cycle_road_map
-# """store best cycle and best shift/swap, compare and replace. """
-# t1 = find_best_cycle(road_map)
-# print(t1)
-# 
-# """when swap cities is called, use the best cycle map!, not road_map!,  best cycle roapmap = roadmap!"""
-# 
-# """Works when swap cities allows index1==index2
-#     is this also calculating [49] -> [0]???
-#     FIX THIS - shift_cities not working properly in this function"""
-
-# In[7]:
+# In[28]:
 
 
 def find_best_cycle(road_map):
-
+    """ 
+    Using a combination of swap_cities and shift_cities, try 10000 swaps/shifts, 
+    and each time keep the best cycle found so far. After 10000 swaps/shifts, return the best cycle found so far. 
+    Use randomly generated indices for swapping. 
+    """
+    
     n = 10000
     count = 0
     new_cycle = 0
     best_cycle = 1060.14
-    best_cycle_road_map = road_map
+    best_cycle_road_map = road_map 
     
     while count!= n:
+        #generate random int to choose element from road_map. int range from 0 to len(road_map).
         n1 = int((len(road_map)) * rand.random())
         n2 = int((len(road_map)) * rand.random())
 
         a = swap_cities(best_cycle_road_map, n1, n2)
 
-        
+        #a[1] is total_distance computed for road_map. 
         if a[1] < best_cycle: 
             best_cycle = a[1]
-            best_cycle_road_map = a[0]
+            best_cycle_road_map = a[0] #a[0] is road_map generated for the cycle. 
 
-        
         b = shift_cities(best_cycle_road_map)
         
-
         new_cycle = compute_total_distance(b)
         
         if new_cycle < best_cycle:
@@ -295,12 +209,10 @@ def find_best_cycle(road_map):
         count+=1
 
     return ('Total distance: ' + str(best_cycle)), best_cycle_road_map
-"""store best cycle and best shift/swap, compare and replace. """
-#t1 = find_best_cycle(road_map)
-#print(t1)
+#store best cycle and best shift/swap, compares and replaces. 
 
 
-# In[13]:
+# In[29]:
 
 
 def print_map(road_map):
@@ -308,6 +220,8 @@ def print_map(road_map):
     Prints, in an easily understandable format, the cities and 
     their connections, along with the cost for each connection 
     and the total cost.
+    
+    ***need to fix this for new functions!!!!***
     """
 
     for i in range(len(road_map)): 
@@ -322,17 +236,14 @@ def print_map(road_map):
         #print(x2,y2)
         distance = round((math.sqrt((x1-x2)**2 + (y1-y2)**2)),2) 
         print('Distance between '+ str(road_map[i][1]) + ' -> ' + str(road_map[(i + 1) % len(road_map)][1]) +' is '+ str(distance))
-
-    
-
-    total_distance = compute_total_distance(road_map)    
-    return ('Total distance: ' + str(total_distance))
         
+    total_distance = compute_total_distance(road_map)    
+    print ('Total distance: ' + str(total_distance))
+        
+#print_map(road_map)
 
-print_map(road_map)
 
-
-# In[48]:
+# In[45]:
 
 
 def main():
@@ -343,28 +254,33 @@ def main():
 
     file = input("Please input your file name: \n")
     
+    #prevents function from crashing if file is not found. Prompts user to input file name again. 
+    try:
+        f = open(file, "r")
+    except:
+        print("There is no file named " + "'" + file + "'.")
+        file = input("Please input your file name: \n")
+    
     road_map = read_cities(file)
     
     #print_roadmap = print_cities(road_map)
     
+    #assigned original road_map
     road_map2 = print_cities(road_map)
     print('\n'+str(road_map2) +  '\n')
     
     best_cycle = find_best_cycle(road_map2)
     
-    return (best_cycle)
+    print(best_cycle)
+
+    if __name__ == "__main__": #keep this in
+        main()
+        return "main name"
 
 
-#if _name_ == "_main_": #keep this in
-#        main()
-#        return "main name
+# In[46]:
 
-
-
-# In[ ]:
-
-
-print(main())
+#main()
 
 
 # In[23]:
@@ -380,6 +296,12 @@ def visualise(road_map):
 
 
 # print(visualise(best_cycle_road_map))
+
+
+# In[ ]:
+
+
+
 
 
 # In[ ]:

@@ -80,6 +80,7 @@ def test_swap_cities():
 
     assert swap_cities(road_map1,0,1) == (new_road_map1, pytest.approx(38.53))
                         #assert.raise(TypeError, swap_cities, True)
+    assert swap_cities(road_map1, 1,1) == road_map1
     assert swap_cities(road_map1,1.4,2.8) == "Input: index1 or index2 is of wrong type. Input must be an int."
     assert swap_cities(road_map2,1,2) == "Incorrect type. 'road_map' index[2] and [3] must be of float() types."
     assert swap_cities(road_map5,1,2) == "Incorrect type. 'road_map' index[0] and [1] must be of str() types."
