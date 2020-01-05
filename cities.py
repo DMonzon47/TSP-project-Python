@@ -1,14 +1,14 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[14]:
 
 
 import random as rand
 import math
 
 
-# In[2]:
+# In[15]:
 
 
 def read_cities(file_name):
@@ -44,11 +44,11 @@ def read_cities(file_name):
 # tranform into tuple 
 # add to listt
 # return listt
-#road_map = read_cities('city-data.txt')
+road_map = read_cities('city-data.txt')
 #print(road_map)
 
 
-# In[3]:
+# In[20]:
 
 
 def print_cities(road_map):
@@ -63,11 +63,11 @@ def print_cities(road_map):
 
     return road_map
 
-#road_map = print_cities(road_map)
-#print(road_map)
+road_map = print_cities(road_map)
+print(road_map)
 
 
-# In[4]:
+# In[22]:
 
 
 def compute_total_distance(road_map):
@@ -81,17 +81,14 @@ def compute_total_distance(road_map):
     if len(road_map) == 0: 
         return "Empty 'road_map', please input correct format: [('state','city','latitude','longitude')]."
     
-    
-    
     #to check if longitude and latitude is in float() type or if list is in correct format. 
     for i in road_map:
-        if len(i) != 4: 
-            return "List does not follow format [(state, city, latitude, longitude)]" 
         if type(i[2]) == str or type(i[3]) == str:
             return "Incorrect type/format. 'road_map' index[2] and [3] must be of float() types."
         if type(i[2]) == int or type(i[3]) ==int:
             return "Incorrect type/format. 'road_map' index[2] and [3] must be of float() types."      
-
+        if len(i)!= 4: 
+            return "List does not follow format [(state, city, latitude, longitude)]" #may not be needed. 
         
     total_distance = 0
     x1 = road_map[0][2] #float or str?
@@ -111,14 +108,15 @@ def compute_total_distance(road_map):
 
 #print(compute_total_distance(road_map))
 #road_map11 = [("Kentucky", "Frank", 38.197274, -84.86311),\
-#                ("Delaware", "Dover", 39.161921, -75.526755),                ("Minnesota", "Saint Paul", 44.95, -93.094)]
+#                ("Delaware", "Dover", 39.161921, -75.526755),\
+#                ("Minnesota", "Saint Paul", 44.95, -93.094)]
 #road_map2 = []
 #print(compute_total_distance(road_map11))
 #print(compute_total_distance(road_map2))
 #print(compute_total_distance(road_map))
 
 
-# In[5]:
+# In[19]:
 
 
 def swap_cities(road_map, index1, index2):
@@ -153,8 +151,7 @@ def swap_cities(road_map, index1, index2):
     #print(str(road_map)+'\n')
         
     return (new_road_map, new_total_distance)
-
-#print(swap_cities(road_map,0,1))
+print(swap_cities(road_map,0,1))
 #print('\n')
 #print(road_map)
 
@@ -182,8 +179,6 @@ def shift_cities(road_map):
 #     road_map2=[]
 #     for i in road_map: 
 #         road_map2.append(i)
-    
-     #road_map = road_map2
     if len(road_map) == 0: 
         return "Empty 'road_map', please input correct format: [('state','city','latitude','longitude')]."
     
@@ -194,6 +189,8 @@ def shift_cities(road_map):
             return "Incorrect type. 'road_map' index[0] and [1] must be of str() types."
         if len(i)!= 4: 
             return "List does not follow format [(state, city, latitude, longitude)]"
+     #road_map = road_map2
+    
     road_map.insert(0,road_map.pop())
     
     return  road_map
@@ -303,7 +300,7 @@ def find_best_cycle(road_map):
 #print(t1)
 
 
-# In[49]:
+# In[13]:
 
 
 def print_map(road_map):
@@ -332,7 +329,7 @@ def print_map(road_map):
     return ('Total distance: ' + str(total_distance))
         
 
-#print_map(road_map)
+print_map(road_map)
 
 
 # In[48]:
@@ -364,7 +361,14 @@ def main():
 
 
 
-#print(main())
+# In[ ]:
+
+
+print(main())
+
+
+# In[23]:
+
 
 def visualise(road_map):
     import tkinter as tk
@@ -376,8 +380,6 @@ def visualise(road_map):
 
 
 # print(visualise(best_cycle_road_map))
-
-
 
 
 # In[ ]:
