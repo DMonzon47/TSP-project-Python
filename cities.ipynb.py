@@ -227,8 +227,8 @@ def find_best_cycle(road_map):
         #print('swapped total: ' + str(a[1]))
         print(n1,n2)
         #print (a[1])
-        if a[1] < best_cycle: 
-            best_cycle = a[1]
+        if float(a[1]) < best_cycle: 
+            best_cycle = float(a[1])
             best_cycle_road_map = a[0]
             #print('\n'+'second cycle: ' + str(best_cycle))
             #print('second cycle: ' + str(best_cycle_road_map)+ '\n')
@@ -250,8 +250,8 @@ def find_best_cycle(road_map):
         #print(best_cycle_road_map)
     return ('Total distance: ' + str(best_cycle)), best_cycle_road_map
 """store best cycle and best shift/swap, compare and replace. """
-t1 = find_best_cycle(road_map)
-print(t1)
+#t1 = find_best_cycle(road_map)
+#print(t1)
 
 """when swap cities is called, use the best cycle map!, not road_map!,  best cycle roapmap = roadmap!"""
 
@@ -271,8 +271,8 @@ def print_map(road_map):
     """
 
     for i in range(len(road_map)): 
-        x1 = road_map[i][2]
-        y1 = road_map[i][3]
+        x1 = float(road_map[i][2])
+        y1 = float(road_map[i][3])
         x2 = 0
         y2 = 0
         
@@ -285,11 +285,11 @@ def print_map(road_map):
 
     
 
-    total_distance = compute_total_distance(road_map)    
-    print('Total distance: ' + str(total_distance))
+    #total_distance = compute_total_distance(road_map)    
+    #print('Total distance: ' + str(total_distance))
         
 
-print_map(road_map)
+#print_map(road_map)
 
 
 # In[121]:
