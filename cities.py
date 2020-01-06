@@ -103,8 +103,8 @@ def compute_total_distance(road_map):
 def swap_cities(road_map, index1, index2):
 
     #if indices are same, return road_map. 
-    if index1==index2:
-        return road_map
+    #if index1==index2:
+        #return road_map
     
     #checks if inputted index1 and index2 is of int type.     
     if type(index1)!= int or type(index2) != int:
