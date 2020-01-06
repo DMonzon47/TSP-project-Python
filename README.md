@@ -1,5 +1,11 @@
 # Traveling Salesman
 
+The following need to be imported inorder to use the visualisation functions:
+import matplotlib 
+import matplotlib.pyplot as plt
+from matplotlib.pyplot import figure
+import random as rand
+import math
 This coursework considers a simplified version of the travelling salesman problem.
 
 ## Purposes of this assignment
