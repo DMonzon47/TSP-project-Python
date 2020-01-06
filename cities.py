@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[32]:
+# In[1]:
 
 
 import random as rand
@@ -24,17 +24,17 @@ def read_cities(file_name):
     infile = open(file_name,"r")
     inline = infile.readlines()
     r_listt = [line.rstrip() for line in inline]
-    road_map = [(line.split('\t',4)) for line in r_listt]
+    listt = [(line.split('\t',4)) for line in r_listt]
+    infile.close() 
     
-    
-    infile.close()   
+    road_map = [(i[0],i[1], float(i[2]),float(i[3])) for i in listt]   
     return road_map
 
 road_map = read_cities('city-data.txt')
-print(road_map)
+#print(road_map)
 
 
-# In[24]:
+# In[3]:
 
 
 def print_cities(road_map):
@@ -44,16 +44,16 @@ def print_cities(road_map):
     """
     
     #creates a list (road_map2) where each index has a list of: str,str,float,float.
-    road_map2 = [(i[0],i[1],round(float(i[2]),2),round(float(i[3]),2)) for i in road_map]
+    road_map2 = [(i[0],i[1],round(i[2],2),round(i[3],2)) for i in road_map]
     road_map = road_map2
 
 
     return (road_map)
 
-print_cities(road_map)
+#print_cities(road_map)
 
 
-# In[25]:
+# In[4]:
 
 
 def compute_total_distance(road_map):
@@ -97,14 +97,10 @@ def compute_total_distance(road_map):
 #print(compute_total_distance(road_map))
 
 
-# In[47]:
+# In[7]:
 
 
 def swap_cities(road_map, index1, index2):
-
-    #if indices are same, return road_map. 
-    #if index1==index2:
-        #return road_map
     
     #checks if inputted index1 and index2 is of int type.     
     if type(index1)!= int or type(index2) != int:
@@ -130,10 +126,9 @@ def swap_cities(road_map, index1, index2):
     new_total_distance = compute_total_distance(new_road_map)
 
     return (new_road_map, new_total_distance)
-#print(swap_cities(road_map,0,1))
 
 
-# In[27]:
+# In[8]:
 
 
 def shift_cities(road_map):
@@ -169,7 +164,7 @@ def shift_cities(road_map):
 #print(shift_cities(road_map))
 
 
-# In[28]:
+# In[46]:
 
 
 def find_best_cycle(road_map):
@@ -191,7 +186,8 @@ def find_best_cycle(road_map):
         n2 = int((len(road_map)) * rand.random())
 
         a = swap_cities(best_cycle_road_map, n1, n2)
-
+        #print(a[1])
+        #print(best_cycle)
         #a[1] is total_distance computed for road_map. 
         if a[1] < best_cycle: 
             best_cycle = a[1]
@@ -210,9 +206,10 @@ def find_best_cycle(road_map):
 
     return ('Total distance: ' + str(best_cycle)), best_cycle_road_map
 #store best cycle and best shift/swap, compares and replaces. 
+#print(find_best_cycle(road_map))
 
 
-# In[29]:
+# In[47]:
 
 
 def print_map(road_map):
@@ -243,7 +240,62 @@ def print_map(road_map):
 #print_map(road_map)
 
 
-# In[45]:
+# In[68]:
+
+
+#longitude = x, latitude = y
+def visualise(road_map):
+
+    import matplotlib 
+    import matplotlib.pyplot as plt
+    from matplotlib.pyplot import figure
+    
+    longitude_x = [(i[3]) for i in road_map]
+    latitude_y = [(i[2]) for i in road_map]
+    annotates1 = [(i[1]) for i in road_map]
+    
+    #adjust lat and long to min and max of road_map with +- 5 allowance.
+    y_min = min(latitude_y) -5
+    y_max = max(latitude_y) + 5
+    x_min = min(longitude_x) - 5
+    x_max = max(longitude_x) + 5
+    
+    a = compute_total_distance(road_map)
+    
+    plt.figure(figsize = (17,12))
+    plt.scatter(longitude_x, latitude_y)
+        
+    #uses label/key to display total_distance of road_map
+    plt.plot(longitude_x, latitude_y, color = 'green', lw = 0.5, label = 'Total distance: ' + str(a))
+    
+    plt.xlabel('Longitude')
+    plt.ylabel('Latitude')
+    plt.legend(loc="upper right", prop = {'size':14})
+    #plt.ylim(-90, 90)
+    #plt.xlim(-180,180)
+    
+    #adjust lat and long to min and max of road_map with +- 5 allowance.
+    plt.ylim(y_min, y_max)
+    plt.xlim(x_min,x_max)
+    
+    plt.rc('grid', linestyle="dashed", color='grey')
+    plt.grid(True)
+    
+        
+    #annotates each plot with city and order plotted. Starting from 0.
+    for i,txt in enumerate(annotates1): 
+        plt.annotate((i,annotates1[i]),(longitude_x[i],latitude_y[i]))
+        
+    #plt.plot(figsize=[40,40])#to change figure size
+    plt.title("TSP: best cycle road map visualiser.")
+
+    plt.show()
+    
+    
+#visualise(road_map)
+
+
+# In[69]:
 
 
 def main():
@@ -252,60 +304,79 @@ def main():
     cycle and prints it out.
     """
 
-    file = input("Please input your file name: \n")
+    file = input("Please input your file name, or type 'None' to exit: \n")
     
+    if file == 'None':
+        return  "Goodbye!"
+    
+    
+    #try except    
     #prevents function from crashing if file is not found. Prompts user to input file name again. 
     try:
         f = open(file, "r")
     except:
         print("There is no file named " + "'" + file + "'.")
         file = input("Please input your file name: \n")
-    
+        if file == 'None':
+            return ("Goodbye!")
     road_map = read_cities(file)
-    
-    #print_roadmap = print_cities(road_map)
     
     #assigned original road_map
     road_map2 = print_cities(road_map)
-    print('\n'+str(road_map2) +  '\n')
+    print('Original road_map: \n'+str(road_map2) +  '\n')
     
     best_cycle = find_best_cycle(road_map2)
     
-    print(best_cycle)
-
+    print("Best cycle: \n" + str(best_cycle))
+    #print_map(best_cycle[1])
+    
+    visualise(best_cycle[1])
+    
     if __name__ == "__main__": #keep this in
         main()
         return "main name"
 
 
-# In[46]:
-
-#main()
-
-
-# In[23]:
-
-
-def visualise(road_map):
-    import tkinter as tk
-    import matplotlib 
-    import matplotlib.pyplot as plt
-    from matplotlib.path import Path
-    import matplotlib.patches as patches
-    from matplotlib.pyplot import figure
-
-
-# print(visualise(best_cycle_road_map))
-
-
 # In[ ]:
 
 
+main()
 
 
-
-# In[ ]:
-
-
-
-
+# def main():
+#     """
+#     Reads in, and prints out, the city data, then creates the "best"
+#     cycle and prints it out.
+#     """
+#     file = input("Please input your file name, or type 'None' to exit: \n")
+#     
+#     
+#     if file == 'None':
+#         return  "Goodbye!"
+#     
+#     
+#     while file != 'None':
+#     #prevents function from crashing if file is not found. Prompts user to input file name again. 
+#         try:
+#             f = open(file, "r")
+#         except:
+#             print("There is no file named " + "'" + file + "'.")
+#             file = input("Please input your file name: \n")
+#             if file == 'None':
+#                 return "Goodbye!"
+#     
+#     road_map = read_cities(file)
+#     
+#     #assigned original road_map
+#     road_map2 = print_cities(road_map)
+#     print('Original road_map: \n'+str(road_map2) +  '\n')
+#     
+#     best_cycle = find_best_cycle(road_map2)
+#     
+#     #print_map(best_cycle)
+#     
+#     print("Best cycle: \n" + str(best_cycle))
+#     
+#     if __name__ == "__main__": #keep this in
+#         main()
+#         return "main name"
