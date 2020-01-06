@@ -28,13 +28,18 @@ def test_compute_total_distance():
                 ('Colorado', 'Denver', 39.74, -104.98),\
                 ('Connecticut', 'Hartford', 41.77, -72.68)]
 
+    road_map5 = [(7.7, 7, 38.197274, -84.86311),\
+                ("Delaware", "Dover", 39.161921, -75.526755),\
+                ("Minnesota", "Saint", "Paul", 44.95, -93.094)]
+
     assert compute_total_distance(road_map1) == pytest.approx(38.53)
     assert compute_total_distance(road_map2) == "Incorrect type/format. 'road_map' index[2] and [3] must be of float() types." 
     assert compute_total_distance(road_map3) == "Empty 'road_map', please input correct format: [('state','city','latitude','longitude')]."
     assert compute_total_distance(road_map4) == "Incorrect type/format. 'road_map' index[2] and [3] must be of float() types."
     assert compute_total_distance(road_map5) == "List does not follow format [(state, city, latitude, longitude)]"
     assert compute_total_distance(road_map6) == pytest.approx(213.15)
-    
+    assert compute_total_distance(road_map7) == "Incorrect type/format. 'road_map' index[2] and [3] must be of str() types."
+
 def test_swap_cities():
 
     road_map1 = [("Kentucky", "Frankfort", 38.197274, -84.86311),\
