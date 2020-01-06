@@ -80,11 +80,8 @@ def test_swap_cities():
                 ('California', 'Sacramento', 38.56, -121.47),\
                 ('Colorado', 'Denver', 39.74, -104.98),\
                 ('Connecticut', 'Hartford', 41.77, -72.68)]
-    
-    #new_total_distance = pytest.approx(38.53)
 
     assert swap_cities(road_map1,0,1) == (new_road_map1, pytest.approx(38.53))
-                        #assert.raise(TypeError, swap_cities, True)
     assert swap_cities(road_map1, 1,1) == (road_map1, pytest.approx(38.53))
     assert swap_cities(road_map1,1.4,2.8) == "Input: index1 or index2 is of wrong type. Input must be an int."
     assert swap_cities(road_map2,1,2) == "Incorrect type. 'road_map' index[2] and [3] must be of float() types."
@@ -139,7 +136,6 @@ def test_shift_cities():
                 ('California', 'Sacramento', 38.56, -121.47)]
 
     assert shift_cities(road_map1) == new_road_map2
-                #assert.raise(TypeError, shift_cities, 5)
     assert shift_cities(road_map2) == "Incorrect type. 'road_map' index[2] and [3] must be of float() types."
     assert shift_cities(road_map3)== "Empty 'road_map', please input correct format: [('state','city','latitude','longitude')]."
     assert shift_cities(road_map4) == "Incorrect type. 'road_map' index[2] and [3] must be of float() types."
