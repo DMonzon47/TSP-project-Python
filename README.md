@@ -1,4 +1,4 @@
-# Traveling Salesman Grade achieved: 98.5%
+# Traveling Salesman. Grade achieved: 98.5%
 
 The following need to be imported inorder to use the visualisation functions:
 import matplotlib 
